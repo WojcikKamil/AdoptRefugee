@@ -2,6 +2,9 @@
 {
     public class Accommodation
     {
-        public int a_id { get; set; }
+        public int Id { get; set; }
+        public int BenefactorID { get; set; }
+        public int RefugeeID { get; set; }
+        public ICollection<Photo> ?Photos { get; set; }
     }
 }
