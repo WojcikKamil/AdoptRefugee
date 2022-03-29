@@ -13,10 +13,9 @@ namespace API.Data
         {
 
         }
-        public DbSet<Person> Persons { get; set; }
-        public DbSet<Comrades> Comrades { get; set; }
-        public DbSet<Accommodation> Accommodations { get; set; }
-        public DbSet<Photo> Photos { get; set; }
+        public DbSet<Person> ?Persons { get; set; }
+        public DbSet<Comrades> ?Comrades { get; set; }
+        public DbSet<Accommodation> ?Accommodations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -30,6 +29,11 @@ namespace API.Data
                 .HasOne(p => p.Person)
                 .WithOne(x => x.AppUser)
                 .HasForeignKey<Person>(x => x.AppUserId);
+
+            builder.Entity<AppUser>()
+                .HasOne(p => p.Accommodation)
+                .WithOne(s => s.AppUser)
+                .HasForeignKey<Accommodation>(s => s.BenefactorID);
 
             builder.Entity<AppUser>()
                .HasMany(ur => ur.AppRoles)

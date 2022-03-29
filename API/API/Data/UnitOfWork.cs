@@ -15,6 +15,12 @@ namespace API.Data
 
         public IPersonRepository PersonRepository => new PersonRepository(_context, _mapper);
 
+        public IAccommodationRepository AccommodationRepository => new AccommodationRepository(_context, _mapper);
+
+        public IRefugeeRepository RefugeeRepository => new RefugeeRepository(_context, _mapper);
+
+        public IBenefactorRepository BenefactorRepository => new BenefactorRepository(_context, _mapper);
+
         public async Task<bool> Done()
         {
             return await _context.SaveChangesAsync() > 0;

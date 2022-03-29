@@ -14,7 +14,7 @@
         public string? Street { get; set; }
         public long Home_Number { get; set; }
         public long Flat_Number { get; set; }
-
+        public string ?Status { get; set; }
         public AppUser? AppUser { get; set; }
         public ICollection<Comrades>? Comrades { get; set; }
     }
