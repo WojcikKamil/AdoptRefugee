@@ -61,6 +61,7 @@ namespace API.Controllers
                 PESEL = personDTO.PESEL,
                 City = personDTO.City,
                 Street = personDTO.Street,
+                Status = user.Status,
                 Home_Number = personDTO.Home_Number,
                 Flat_Number = personDTO.Flat_Number,
             };
@@ -102,12 +103,6 @@ namespace API.Controllers
                 return Ok(_mapper.Map<ComradesDTO>(comrades));
 
             return BadRequest("Failed");
-        }
-
-        [HttpGet("GetAllFamily")]
-        public async Task<ActionResult<AppUser>> GetFamily(string userName)
-        {
-            return await _unitOfWork.PersonRepository.GetFamily(userName);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using API.Entities;
+﻿using API.DTO;
+using API.Entities;
 
 namespace API.Interfaces
 {
@@ -8,6 +9,5 @@ namespace API.Interfaces
         Task<AppUser> GetByEmail(string userName);
         void AddData(Person person);
         void AddComrades(Comrades comrades);
-        Task<AppUser> GetFamily(string userName);
     }
 }

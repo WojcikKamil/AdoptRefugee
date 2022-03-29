@@ -44,6 +44,17 @@ namespace API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDTO>> Register(RegisterDTO registerDTO)
         {
+            var roles = new List<AppRole>
+            {
+                new AppRole{Name = "Refugee"},
+                new AppRole{Name = "Benefactor"},
+                new AppRole{Name = "Admin"}
+            };
+
+            foreach (var role in roles)
+            {
+                await _roleManager.CreateAsync(role);
+            }
 
             if (await UserExists(registerDTO.UserName)) return BadRequest("Email is taken");
 

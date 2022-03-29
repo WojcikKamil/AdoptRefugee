@@ -7,5 +7,6 @@ namespace API.Entities
         public string? Status { get; set; }
         public ICollection<AppUserRole>? AppRoles { get; set; }
         public Person? Person { get; set; }
+        public Accommodation ?Accommodation { get; set; }
     }
 }

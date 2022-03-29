@@ -1,7 +1,9 @@
 ﻿using API.Entities;
 using API.Interfaces;
+using AutoMapper.QueryableExtensions;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using API.DTO;
 
 namespace API.Data
 {
@@ -29,14 +31,6 @@ namespace API.Data
         {
             return await _context.Users
                 .SingleOrDefaultAsync(x => x.UserName == userName);
-        }
-
-        public async Task<AppUser> GetFamily(string userName)
-        {
-            return await _context.Users
-                .Include(p => p.Person)
-                .ThenInclude(c => c.Comrades)
-                .SingleOrDefaultAsync(x => x.UserName.Equals(userName));
         }
 
         public void Update(AppUser appUser)

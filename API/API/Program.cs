@@ -14,8 +14,17 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddCors(x =>
+{
+   x.AddPolicy("CorsPolicy", policy =>
+   {
+       policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
+   });
+});
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IPhotoService, PhotoService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 builder.Services.AddDbContext<DataContext>(options =>
 
@@ -75,11 +84,8 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:7209"));
+app.UseCors("CorsPolicy");
 
 app.MapControllers();
 
 app.Run();
-
-
-    
