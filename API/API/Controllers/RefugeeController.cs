@@ -1,6 +1,7 @@
 ﻿using API.Data;
 using API.DTO;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
@@ -37,9 +38,9 @@ namespace API.Controllers
         }
 
         [HttpGet("GetEmptyAccommodation")]
-        public async Task<ActionResult<AccommodationDTO>> GetEmptyAccommodation()
+        public async Task<ActionResult<AccommodationDTO>> GetEmptyAccommodation([FromQuery] Paging paging,[FromQuery] FilteringProperties filter)
         {
-            return Ok(await _unitOfWork.RefugeeRepository.GetEmptyAccommodations());
+            return Ok(await _unitOfWork.RefugeeRepository.GetEmptyAccommodations(paging,filter));
         }
     }
 }

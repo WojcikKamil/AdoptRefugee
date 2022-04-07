@@ -1,9 +1,11 @@
 ﻿using API.DTO;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
+using X.PagedList;
 
 namespace API.Data
 {
@@ -16,14 +18,23 @@ namespace API.Data
             _context = context;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<AccommodationDTO>> GetEmptyAccommodations()
+        public async Task<IPagedList> GetEmptyAccommodations(Paging paging = null!, FilteringProperties filter = null!)
         {
-            var dupa = await _context.Accommodations
+            List<AccommodationDTO> query = _context.Accommodations!
                 .Where(x => x.RefugeeID == 0)
                 .Include(p => p.Photos)
-                .ToListAsync();
+                .Select(m => _mapper.Map<AccommodationDTO>(m))
+                .ToList();
 
-            return _mapper.Map<IEnumerable<AccommodationDTO>>(dupa);
+            if (filter != null)
+            {
+                query = query.Where(m =>
+                m.City!.Contains(filter.ByCity) && m.NumOfBeds! >= filter.ByNumOfBeds
+                && m.NumOfRooms! >= filter.ByNumOfRooms)
+                .ToList();
+            }
+
+            return await query.ToPagedListAsync(paging.PageNumber, paging.PageSize);
         }
     }
 }
