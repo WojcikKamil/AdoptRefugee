@@ -18,7 +18,7 @@ namespace API.Data
 
         public async Task<IEnumerable<PersonDTO>> GetHomelessRefuges()
         {
-            var dupa = await _context.Persons
+            var dupa = await _context.Refugees!
                 .Where(x => x.Status == "Refugee")
                 .Include(c => c.Comrades)
                 .ToListAsync();
@@ -28,7 +28,7 @@ namespace API.Data
 
         public async Task<IEnumerable<PersonDTO>> GetFamily(int id)
         {
-            var per = await _context.Persons
+            var per = await _context.Refugees!
                 .Where(x => x.AppUserId == id)
                 .Include(c => c.Comrades)
                 .ToListAsync();

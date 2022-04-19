@@ -4,6 +4,7 @@ using AutoMapper.QueryableExtensions;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using API.DTO;
+using Data_Access_Layer.Entities;
 
 namespace API.Data
 {
@@ -17,14 +18,19 @@ namespace API.Data
             _mapper = mapper;
         }
 
-        public void AddComrades(Comrades comrades)
+        public void AddBenefactorData(Benefactor benefactor)
         {
-            _context.Comrades.Add(comrades);
+            _context.Benefactors?.Add(benefactor);
         }
 
-        public void AddData(Person person)
+        public void AddComrades(Comrades comrades)
         {
-            _context.Persons.Add(person);
+            _context.Comrades?.Add(comrades);
+        }
+
+        public void AddRefugeeData(Refugee refugee)
+        {
+            _context.Refugees?.Add(refugee);
         }
 
         public async Task<AppUser> GetByEmail(string userName)

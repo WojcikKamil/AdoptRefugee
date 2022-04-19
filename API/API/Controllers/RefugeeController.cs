@@ -1,6 +1,7 @@
 ﻿using API.Data;
 using API.DTO;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
@@ -12,34 +13,21 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class RefugeeController : BaseApiController
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly ITokenService _tokenService;
-        private readonly IMapper _mapper;
-        private readonly SignInManager<AppUser> _signInManager;
-        private readonly DataContext _context;
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public RefugeeController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
-            ITokenService tokenService,
-            IMapper mapper,
-            DataContext context,
+        public RefugeeController(
             IUnitOfWork unitOfWork
             )
         {
-            _userManager = userManager;
-            _tokenService = tokenService;
-            _mapper = mapper;
-            _signInManager = signInManager;
-            _context = context;
             _unitOfWork = unitOfWork;
 
         }
 
         [HttpGet("GetEmptyAccommodation")]
-        public async Task<ActionResult<AccommodationDTO>> GetEmptyAccommodation()
+        public async Task<ActionResult<AccommodationDTO>> GetEmptyAccommodation([FromQuery] Paging paging,[FromQuery] FilteringProperties filter)
         {
-            return Ok(await _unitOfWork.RefugeeRepository.GetEmptyAccommodations());
+            return Ok(await _unitOfWork.RefugeeRepository.GetEmptyAccommodations(paging,filter));
         }
     }
 }
