@@ -1,4 +1,5 @@
 ﻿using API.Entities;
+using Data_Access_Layer.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,8 @@ namespace API.Data
         {
 
         }
-        public DbSet<Person> ?Persons { get; set; }
+        public DbSet<Refugee> ?Refugees { get; set; }
+        public DbSet<Benefactor>? Benefactors { get; set; }
         public DbSet<Comrades> ?Comrades { get; set; }
         public DbSet<Accommodation> ?Accommodations { get; set; }
 
@@ -26,9 +28,14 @@ namespace API.Data
             //    .ValueGeneratedOnAdd();
 
             builder.Entity<AppUser>()
-                .HasOne(p => p.Person)
+                .HasOne(p => p.Refugee)
                 .WithOne(x => x.AppUser)
-                .HasForeignKey<Person>(x => x.AppUserId);
+                .HasForeignKey<Refugee>(x => x.AppUserId);
+
+            builder.Entity<AppUser>()
+                .HasOne(p => p.Benefactor)
+                .WithOne(x => x.AppUser)
+                .HasForeignKey<Benefactor>(x => x.AppUserId);
 
             builder.Entity<AppUser>()
                 .HasOne(p => p.Accommodation)

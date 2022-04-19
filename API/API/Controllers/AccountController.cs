@@ -4,6 +4,7 @@ using API.Entities;
 using API.Extensions;
 using API.Interfaces;
 using AutoMapper;
+using Data_Access_Layer.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,26 +16,16 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class AccountController : BaseApiController
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
-        private readonly SignInManager<AppUser> _signInManager;
-        private readonly DataContext _context;
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
-            ITokenService tokenService,
+        public AccountController(
             IMapper mapper,
-            DataContext context,
             IUnitOfWork unitOfWork
             )
         {
-            _userManager = userManager;
-            _tokenService = tokenService;
             _mapper = mapper;
-            _signInManager = signInManager;
-            _context = context;
             _unitOfWork = unitOfWork;
 
         }
@@ -46,30 +37,57 @@ namespace API.Controllers
         {
             var email = User.GetUserName();
 
-            var user = await _unitOfWork.PersonRepository.GetByEmail(email);
+            var user = await _unitOfWork.PersonRepository.GetByEmail(email!);
 
             if (user == null) return NotFound();
 
-            var person = new Person
+            if (user.Status == "Refugee")
             {
-                AppUserId = user.Id,
-                Name = personDTO.Name,
-                LastName = personDTO.LastName,
-                Gender = personDTO.Gender,
-                Nationality = personDTO.Nationality,
-                Birth = personDTO.Birth,
-                PESEL = personDTO.PESEL,
-                City = personDTO.City,
-                Street = personDTO.Street,
-                Status = user.Status,
-                Home_Number = personDTO.Home_Number,
-                Flat_Number = personDTO.Flat_Number,
-            };
+                var refugee = new Refugee
+                {
+                    AppUserId = user.Id,
+                    Name = personDTO.Name,
+                    LastName = personDTO.LastName,
+                    Gender = personDTO.Gender,
+                    Nationality = personDTO.Nationality,
+                    Birth = personDTO.Birth,
+                    City = personDTO.City,
+                    Street = personDTO.Street,
+                    Status = user.Status,
+                    Home_Number = personDTO.Home_Number,
+                    Flat_Number = personDTO.Flat_Number,
+                };
+                _unitOfWork.PersonRepository.AddRefugeeData(refugee);
 
-            _unitOfWork.PersonRepository.AddData(person);
+                if (await _unitOfWork.Done())
+                    return Ok(_mapper.Map<PersonDTO>(refugee));
 
-            if (await _unitOfWork.Done())
-                return Ok(_mapper.Map<PersonDTO>(person));
+                return BadRequest("Failed to add Refugee data");
+            }
+            else
+            {
+                var benefactor = new Benefactor
+                {
+                    AppUserId = user.Id,
+                    Name = personDTO.Name,
+                    LastName = personDTO.LastName,
+                    Gender = personDTO.Gender,
+                    Nationality = personDTO.Nationality,
+                    Birth = personDTO.Birth,
+                    City = personDTO.City,
+                    Street = personDTO.Street,
+                    Status = user.Status,
+                    Home_Number = personDTO.Home_Number,
+                    Flat_Number = personDTO.Flat_Number,
+                };
+
+                _unitOfWork.PersonRepository.AddBenefactorData(benefactor);
+
+                if (await _unitOfWork.Done())
+                    return Ok(_mapper.Map<PersonDTO>(benefactor));
+
+                return BadRequest("Failed to add Benefactor data");
+            }
 
             return BadRequest("Failed");
         }

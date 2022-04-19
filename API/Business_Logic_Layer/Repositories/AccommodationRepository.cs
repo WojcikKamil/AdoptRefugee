@@ -18,14 +18,14 @@ namespace API.Data
 
         public void AddAccommodation(Accommodation accommodation)
         {
-           _context.Accommodations.Add(accommodation);
+           _context?.Accommodations?.Add(accommodation);
         }
 
         public async Task<Accommodation> GetAccommodation(int id)
         {
-            return _context.Accommodations
-                .Include(p => p.Photos)
-                .FirstOrDefault(x => x.BenefactorID == id);
+            return _context.Accommodations!
+                .Include(p => p.Photos)!
+                .FirstOrDefault(x => x.BenefactorID == id)!;
         }
 
         public void upddate(Accommodation accommodation)

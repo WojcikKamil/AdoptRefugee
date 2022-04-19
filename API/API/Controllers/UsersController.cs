@@ -19,7 +19,6 @@ namespace API.Controllers
         private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
         private readonly SignInManager<AppUser> _signInManager;
-        private readonly DataContext _context;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IEmailSender _emailSender;
 
@@ -27,7 +26,6 @@ namespace API.Controllers
         public UsersController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
             ITokenService tokenService,
             IMapper mapper,
-            DataContext context,
             RoleManager<AppRole> roleManager,
             IEmailSender emailSender
             )
@@ -36,7 +34,6 @@ namespace API.Controllers
             _tokenService = tokenService;
             _mapper = mapper;
             _signInManager = signInManager;
-            _context = context;
             _roleManager = roleManager;
             _emailSender = emailSender;
         }
@@ -56,11 +53,11 @@ namespace API.Controllers
                 await _roleManager.CreateAsync(role);
             }
 
-            if (await UserExists(registerDTO.UserName)) return BadRequest("Email is taken");
+            if (await UserExists(registerDTO.UserName!)) return BadRequest("Email is taken");
 
             var user = _mapper.Map<AppUser>(registerDTO);
 
-            user.UserName = registerDTO.UserName.ToLower();
+            user.UserName = registerDTO.UserName!.ToLower();
 
             user.Email = user.UserName;
 

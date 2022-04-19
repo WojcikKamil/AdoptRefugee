@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Data_Access_Layer.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace API.Entities
 {
@@ -6,7 +7,8 @@ namespace API.Entities
     {
         public string? Status { get; set; }
         public ICollection<AppUserRole>? AppRoles { get; set; }
-        public Person? Person { get; set; }
+        public Refugee? Refugee { get; set; }
+        public Benefactor? Benefactor { get; set; }
         public Accommodation ?Accommodation { get; set; }
     }
 }

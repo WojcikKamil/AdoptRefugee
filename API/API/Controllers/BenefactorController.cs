@@ -14,28 +14,18 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class BenefactorController : BaseApiController
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
-        private readonly SignInManager<AppUser> _signInManager;
-        private readonly DataContext _context;
         private readonly IPhotoService _photoService;
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public BenefactorController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
-            ITokenService tokenService,
+        public BenefactorController(
             IMapper mapper,
-            DataContext context,
             IUnitOfWork unitOfWork,
             IPhotoService photoService
             )
         {
-            _userManager = userManager;
-            _tokenService = tokenService;
             _mapper = mapper;
-            _signInManager = signInManager;
-            _context = context;
             _unitOfWork = unitOfWork;
             _photoService = photoService;
         }

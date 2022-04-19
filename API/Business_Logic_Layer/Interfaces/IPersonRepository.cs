@@ -1,5 +1,6 @@
 ﻿using API.DTO;
 using API.Entities;
+using Data_Access_Layer.Entities;
 
 namespace API.Interfaces
 {
@@ -7,7 +8,8 @@ namespace API.Interfaces
     {
         void Update(AppUser appUser);
         Task<AppUser> GetByEmail(string userName);
-        void AddData(Person person);
+        void AddRefugeeData(Refugee refugee);
+        void AddBenefactorData(Benefactor benefactor);
         void AddComrades(Comrades comrades);
     }
 }

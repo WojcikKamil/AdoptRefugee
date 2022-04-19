@@ -9,6 +9,6 @@
         public string? Gender { get; set; }
         public string? Nationality { get; set; }
         public DateTime Birth { get; set; }
-        public Person? Person { get; set; }
+        public Refugee? Refugee { get; set; }
     }
 }
