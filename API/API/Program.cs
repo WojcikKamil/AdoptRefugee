@@ -5,9 +5,7 @@ using API.Interfaces;
 using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -56,7 +54,7 @@ builder.Services.AddIdentityCore<AppUser>(opt =>
                .AddDefaultTokenProviders()
                .AddEntityFrameworkStores<DataContext>();
 
-builder.Services.AddTransient<IEmailSender, MailJetEmailSender>();
+//builder.Services.AddTransient<IEmailSender, MailJetEmailSender>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                .AddJwtBearer(options =>
                {

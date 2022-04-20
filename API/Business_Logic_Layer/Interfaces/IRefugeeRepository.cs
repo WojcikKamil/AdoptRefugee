@@ -8,5 +8,7 @@ namespace API.Interfaces
     public interface IRefugeeRepository
     {
         Task<IPagedList> GetEmptyAccommodations(Paging paging = null!, FilteringProperties filter = null!);
+
+        Task<IEnumerable<AccommodationDTO>> GetAccommodationByBenefactorId(int SenderBenefactorId);
     }
 }

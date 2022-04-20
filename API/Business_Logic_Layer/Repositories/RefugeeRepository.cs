@@ -18,6 +18,16 @@ namespace API.Data
             _context = context;
             _mapper = mapper;
         }
+
+        public async Task<IEnumerable<AccommodationDTO>> GetAccommodationByBenefactorId(int SenderBenefactorId)
+        {
+            var acc = await _context.Accommodations
+                .Where(x => x.BenefactorAppUserID == SenderBenefactorId)
+                .ToListAsync();
+
+            return _mapper.Map<IEnumerable<AccommodationDTO>>(acc);
+        }
+
         public async Task<IPagedList> GetEmptyAccommodations(Paging paging = null!, FilteringProperties filter = null!)
         {
             List<AccommodationDTO> query = _context.Accommodations!

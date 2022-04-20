@@ -8,6 +8,7 @@ namespace API.Interfaces
     {
         void Update(AppUser appUser);
         Task<AppUser> GetByEmail(string userName);
+        Task<AppUser> GetById(int id);
         void AddRefugeeData(Refugee refugee);
         void AddBenefactorData(Benefactor benefactor);
         void AddComrades(Comrades comrades);

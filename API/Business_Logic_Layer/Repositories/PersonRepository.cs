@@ -39,6 +39,12 @@ namespace API.Data
                 .SingleOrDefaultAsync(x => x.UserName == userName);
         }
 
+        public async Task<AppUser> GetById(int id)
+        {
+            return await _context.Users
+                .SingleOrDefaultAsync(x => x.Id == id);
+        }
+
         public void Update(AppUser appUser)
         {
             _context.Entry(appUser).State = EntityState.Modified;

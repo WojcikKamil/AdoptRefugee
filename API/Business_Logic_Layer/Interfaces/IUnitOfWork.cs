@@ -1,4 +1,6 @@
-﻿namespace API.Interfaces
+﻿using Business_Logic_Layer.Interfaces;
+
+namespace API.Interfaces
 {
     public interface IUnitOfWork
     {
@@ -7,5 +9,6 @@
         IAccommodationRepository AccommodationRepository { get; }
         IRefugeeRepository RefugeeRepository { get; }
         IBenefactorRepository BenefactorRepository { get; }
+        IRequestRepository RequestRepository { get; }
     }
 }

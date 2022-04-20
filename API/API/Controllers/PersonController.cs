@@ -14,13 +14,13 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AccountController : BaseApiController
+    public class PersonController : BaseApiController
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public AccountController(
+        public PersonController(
             IMapper mapper,
             IUnitOfWork unitOfWork
             )
@@ -32,7 +32,7 @@ namespace API.Controllers
 
         //[Authorize(Policy = "RequireBenefactorRole")]
         [Authorize]
-        [HttpPost("add-data")]
+        [HttpPost("add-personal-data")]
         public async Task<ActionResult> PostData([FromBody] PersonDTO personDTO)
         {
             var email = User.GetUserName();
@@ -64,7 +64,8 @@ namespace API.Controllers
 
                 return BadRequest("Failed to add Refugee data");
             }
-            else
+
+            else if(user.Status == "Benefactor")
             {
                 var benefactor = new Benefactor
                 {
@@ -89,38 +90,10 @@ namespace API.Controllers
                 return BadRequest("Failed to add Benefactor data");
             }
 
-            return BadRequest("Failed");
-        }
-
-        [Authorize(Policy = "RequireRefugeeRole")]
-        [HttpPost("add-comrades")]
-        public async Task<ActionResult> PostComrades([FromBody] ComradesDTO comradesDTO)
+            else
             {
-
-            var email = User.GetUserName();
-
-            if (email == null) return NotFound();
-
-            var user = await _unitOfWork.PersonRepository.GetByEmail(email);
-
-            if (user == null) return NotFound();
-
-            var comrades = new Comrades
-            {
-                PersonID = user.Id,
-                Name = comradesDTO.Name,
-                LastName = comradesDTO.LastName,
-                Gender = comradesDTO.Gender,
-                Nationality = comradesDTO.Nationality,
-                Birth = comradesDTO.Birth
-            };
-
-            _unitOfWork.PersonRepository.AddComrades(comrades);
-
-            if (await _unitOfWork.Done())
-                return Ok(_mapper.Map<ComradesDTO>(comrades));
-
-            return BadRequest("Failed");
+                return BadRequest("Failed to add data.");
+            }
         }
     }
 }

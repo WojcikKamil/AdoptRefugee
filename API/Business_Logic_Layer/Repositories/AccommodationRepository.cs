@@ -2,6 +2,7 @@
 using API.Entities;
 using API.Interfaces;
 using AutoMapper;
+using Business_Logic_Layer.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
@@ -25,12 +26,18 @@ namespace API.Data
         {
             return _context.Accommodations!
                 .Include(p => p.Photos)!
-                .FirstOrDefault(x => x.BenefactorID == id)!;
+                .FirstOrDefault(x => x.BenefactorAppUserID == id)!;
         }
 
-        public void upddate(Accommodation accommodation)
+        public async Task<Accommodation> GetOneAccommodation(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Accommodations!
+                .SingleOrDefaultAsync(x => x.BenefactorAppUserID == id);
+        }
+
+        public void update(Accommodation accommodation)
+        {
+            _context.Entry(accommodation).State = EntityState.Modified;
         }
     }
 }
