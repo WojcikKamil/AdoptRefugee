@@ -1,5 +1,7 @@
 ﻿using API.Interfaces;
 using AutoMapper;
+using Business_Logic_Layer.Interfaces;
+using Business_Logic_Layer.Repositories;
 
 namespace API.Data
 {
@@ -20,6 +22,8 @@ namespace API.Data
         public IRefugeeRepository RefugeeRepository => new RefugeeRepository(_context, _mapper);
 
         public IBenefactorRepository BenefactorRepository => new BenefactorRepository(_context, _mapper);
+
+        public IRequestRepository RequestRepository => new RequestRepository(_context, _mapper);
 
         public async Task<bool> Done()
         {

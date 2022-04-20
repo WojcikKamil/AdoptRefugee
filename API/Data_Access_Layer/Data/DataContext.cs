@@ -18,6 +18,7 @@ namespace API.Data
         public DbSet<Benefactor>? Benefactors { get; set; }
         public DbSet<Comrades> ?Comrades { get; set; }
         public DbSet<Accommodation> ?Accommodations { get; set; }
+        public DbSet<Request> ?Requests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -40,7 +41,7 @@ namespace API.Data
             builder.Entity<AppUser>()
                 .HasOne(p => p.Accommodation)
                 .WithOne(s => s.AppUser)
-                .HasForeignKey<Accommodation>(s => s.BenefactorID);
+                .HasForeignKey<Accommodation>(s => s.BenefactorAppUserID);
 
             builder.Entity<AppUser>()
                .HasMany(ur => ur.AppRoles)

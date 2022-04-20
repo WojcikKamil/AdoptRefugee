@@ -4,7 +4,6 @@ using API.Entities;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Web;
@@ -20,14 +19,14 @@ namespace API.Controllers
         private readonly IMapper _mapper;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<AppRole> _roleManager;
-        private readonly IEmailSender _emailSender;
+        //private readonly IEmailSender _emailSender;
 
 
         public UsersController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
             ITokenService tokenService,
             IMapper mapper,
-            RoleManager<AppRole> roleManager,
-            IEmailSender emailSender
+            RoleManager<AppRole> roleManager
+            //IEmailSender emailSender
             )
         {
             _userManager = userManager;
@@ -35,7 +34,7 @@ namespace API.Controllers
             _mapper = mapper;
             _signInManager = signInManager;
             _roleManager = roleManager;
-            _emailSender = emailSender;
+            //_emailSender = emailSender;
         }
 
         [HttpPost("register")]

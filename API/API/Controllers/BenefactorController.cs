@@ -4,6 +4,7 @@ using API.Entities;
 using API.Extensions;
 using API.Interfaces;
 using AutoMapper;
+using Business_Logic_Layer.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -44,7 +45,7 @@ namespace API.Controllers
 
             var accommodation = new Accommodation
             {
-                BenefactorID = user.Id,
+                BenefactorAppUserID = user.Id,
                 NumOfRooms = accommodationDTO.NumOfRooms,
                 NumOfBeds = accommodationDTO.NumOfBeds,
                 City = accommodationDTO.City,
@@ -61,17 +62,17 @@ namespace API.Controllers
             return BadRequest("Failed");
         }
 
-        [HttpGet("GetAccommodation")]
-        public async Task<ActionResult<Accommodation>> GetAccommodation()
-        {
-            var email = User.GetUserName();
+        //[HttpGet("GetAccommodation")]
+        //public async Task<ActionResult<DisplayAccommodationDTO>> GetAccommodation()
+        //{
+        //    var email = User.GetUserName();
 
-            if (email == null) return NotFound();
+        //    if (email == null) return NotFound();
 
-            var user = await _unitOfWork.PersonRepository.GetByEmail(email);
+        //    var user = await _unitOfWork.PersonRepository.GetByEmail(email);
 
-            return await _unitOfWork.AccommodationRepository.GetAccommodation(user.Id);
-        }
+        //    return Ok(await _unitOfWork.AccommodationRepository.GetAccommodation(user.Id));
+        //}
 
         [HttpPost("add-photo")]
         public async Task<ActionResult<PhotoDTO>> AddPhoto(IFormFile file)
